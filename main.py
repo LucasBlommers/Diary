@@ -25,8 +25,8 @@ for user in users:
     
     if name == user[1]:
         print("Welcome back " + name + ". \n Please enter your password....")
-        password = hash(input())
-        if passwordHasher:
+        password = input()
+        if passwordHasher.verifyPassword(user[2], password):
             diary.mainMenu()
             
     else:
