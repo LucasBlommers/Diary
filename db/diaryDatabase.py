@@ -32,4 +32,8 @@ def saveEntry(title, body):
     with con:
         cur = con.cursor()
         cur.execute("INSERT INTO Entries (Title, Body) VALUES ('" + title + "', '" + body + "')")
-        
+
+def deleteEntry(id):
+    with con:
+        cur = con.cursor()
+        cur.execute("DELETE FROM Entries WHERE Id = " + str(id))
