@@ -11,8 +11,9 @@ print("Hello " + name + ".")
 
 #check if there's a user
 users = diaryDatabase.readUser()
-
+firstTime = False
 if len(users) == 0:
+    firstTime = True
     print("I'll create an account for you. Please enter a password...")
     password = input()
     hashedPassword = passwordHasher.hashPassword(password)
@@ -24,10 +25,11 @@ if len(users) == 0:
 for user in users:
     
     if name == user[1]:
-        print("Welcome back " + name + ". \n Please enter your password....")
-        password = input()
-        if passwordHasher.verifyPassword(user[2], password):
-            diary.mainMenu()
-            
+        if firstTime == False:
+            print("Welcome back " + name + ". \n Please enter your password....")
+            password = input()
+            if passwordHasher.verifyPassword(user[2], password):
+                diary.mainMenu()
+        diary.mainMenu()
     else:
         print("Goodbye")
