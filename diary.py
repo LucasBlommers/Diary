@@ -1,4 +1,41 @@
 import db.diaryDatabase as diaryDatabase
+import passwordHasher
+
+def initialize():
+    #Create User Table
+    diaryDatabase.createUserTable()
+
+def loginAndBegin():
+    print("Hello!")
+    print("what's your name?")
+    name = input()
+    print("Hello " + name + ".")
+
+    #check if there's a user
+    users = diaryDatabase.readUser()
+    firstTime = False
+    if len(users) == 0:
+        firstTime = True
+        print("I'll create an account for you. Please enter a password...")
+        password = input()
+        hashedPassword = passwordHasher.hashPassword(password)
+
+        diaryDatabase.saveUser(name, hashedPassword)
+        print("Account made")
+        users = diaryDatabase.readUser()
+
+    for user in users:
+        
+        if name == user[1]:
+            if firstTime == False:
+                print("Welcome back " + name + ". \n Please enter your password....")
+                password = input()
+                if passwordHasher.verifyPassword(user[2], password):
+                    mainMenu()
+            mainMenu()
+        else:
+            print("Goodbye")
+
 
 def createDiary():
     print("Please enter a title.")
@@ -11,7 +48,7 @@ def createDiary():
     mainMenu()
 
 def mainMenu():
-    print("Main Menu \n1. Create Entry.\n2. Read Entries \n3. Delete Entrie")
+    print("Main Menu \n1. Create Entry.\n2. Read Entries \n3. Delete Entrie \n4. Exit")
     choice = input()
     
     if choice == "1":
@@ -20,6 +57,8 @@ def mainMenu():
         readDiary()
     if choice == "3":
         deleteDiary()
+    if choice == "4":
+        exit()
     else:
         pass
 
